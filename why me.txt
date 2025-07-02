@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Me</title>
+    <style>
+        /* الألوان الرئيسية */
+        :root {
+            --blue: #00addc;
+            --blue-light: rgba(0, 173, 220, 0.1);
+            --blue-medium: rgba(0, 173, 220, 0.5);
+            --black: #000000;
+            --white: #ffffff;
+            --white-dim: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: var(--blue);
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--white-dim);
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding: 1rem;
+            border-top: 1px solid var(--blue-medium);
+            border-bottom: 1px solid var(--blue-medium);
+        }
+
+        .filter-btn {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--blue);
+            padding: 0.7rem 1.5rem;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            min-width: 150px;
+        }
+
+        .filter-btn:hover {
+            background-color: var(--blue-light);
+        }
+
+        .filter-btn.active {
+            background-color: var(--blue);
+            color: var(--black);
+        }
+
+        .section {
+            display: none;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            color: var(--blue);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-right: 15px;
+        }
+
+        .section h2::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 25px;
+            background-color: var(--blue);
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            color: var(--blue);
+            font-weight: bold;
+        }
+
+        /* الرسومات والمخططات */
+        .diagram {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--blue-light);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+            padding-right: 30px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--blue);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 1rem 2rem 1rem 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            right: -13px;
+            top: 8px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--blue);
+            border-radius: 50%;
+        }
+
+        .timeline-item h3 {
+            color: var(--blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .steps-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--blue);
+            color: var(--black);
+            border-radius: 50%;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex-grow: 1;
+        }
+
+        .step-content h3 {
+            color: var(--blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .learning-map {
+            margin: 2rem 0;
+        }
+
+        .branch {
+            margin-right: 30px;
+            position: relative;
+            padding: 1rem 2rem 1rem 0;
+            border-right: 3px solid var(--blue);
+        }
+
+        .branch::before {
+            content: "";
+            position: absolute;
+            right: -10px;
+            top: 20px;
+            width: 20px;
+            height: 3px;
+            background-color: var(--blue);
+        }
+
+        .branch h3 {
+            color: var(--blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-card {
+            background-color: var(--blue-light);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+            border-right: 3px solid var(--blue);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .filter-btn {
+                margin-bottom: 0.5rem;
+                font-size: 0.9rem;
+                min-width: auto;
+                padding: 0.6rem 1rem;
+            }
+            
+            .section h2 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>لماذا أنا؟</h1>
+            <p>اكتشف ما يميزني ولماذا أنا الخيار الأفضل لمشروعك</p>
+        </header>
+
+        <div class="filter-container">
+            <button class="filter-btn active" data-target="smart-work">أعمل بذكاء لا بجهد</button>
+            <button class="filter-btn" data-target="why-programming">لماذا تعلمت البرمجة</button>
+            <button class="filter-btn" data-target="make-different">كيف أجعلك متميزاً</button>
+            <button class="filter-btn" data-target="learning-journey">كيف أتعلم البرمجة</button>
+            <button class="filter-btn special-btn" data-target="special-features" style="background-color: rgba(0, 173, 220, 0.2); border-color: var(--blue);">مميزات خاصة لأول 10 عملاء</button>
+        </div>
+
+        <div class="sections-container">
+            <!-- القسم الأول: أعمل بذكاء لا بجهد -->
+            <div id="smart-work" class="section active">
+                <h2>أعمل بذكاء لا بجهد</h2>
+                <p>في عالم يتغير بسرعة كبيرة، أؤمن بأن متابعة أحدث التقنيات والأدوات هي المفتاح للتميز. أنا أتابع باستمرار كل جديد في مجال تطوير الويب وأدوات الذكاء الاصطناعي لضمان تقديم أفضل الحلول لعملائي.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>متابعة مستمرة</h3>
+                        <p>أقضي ساعات أسبوعياً في متابعة أحدث الأخبار والتقنيات في مجال تطوير الواجهات الأمامية، من خلال المدونات المتخصصة والمؤتمرات التقنية والندوات عبر الإنترنت.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3>توظيف الذكاء الاصطناعي</h3>
+                        <p>أستخدم أدوات الذكاء الاصطناعي المتقدمة لتحسين وتسريع عملية التطوير، مثل <span class="highlight">GitHub Copilot</span> للمساعدة في كتابة الكود، و<span class="highlight">Midjourney</span> للمساعدة في التصميم، و<span class="highlight">ChatGPT</span> لحل المشكلات البرمجية المعقدة.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3>أتمتة المهام المتكررة</h3>
+                        <p>طورت مجموعة من الأدوات والسكريبتات الخاصة لأتمتة المهام المتكررة، مما يتيح لي التركيز على الجوانب الإبداعية والمعقدة في المشاريع.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3>التحسين المستمر</h3>
+                        <p>أؤمن بالتعلم المستمر وأخصص وقتاً أسبوعياً لتجربة التقنيات الجديدة وتطوير مهاراتي، مما يضمن بقائي في طليعة المطورين.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- القسم الثاني: لماذا تعلمت البرمجة -->
+            <div id="why-programming" class="section">
+                <h2>لماذا تعلمت البرمجة</h2>
+                
+                <p>بدأت رحلتي مع البرمجة من موقف غير متوقع تماماً. كنت في الجامعة أدرس تخصصاً مختلفاً عندما واجهت مشكلة في مشروع تخرجي تطلبت حلاً تقنياً. في تلك اللحظة، أدركت أنني بحاجة إلى تعلم البرمجة لتحقيق ما أريد.</p>
+                
+                <p>بدأت بتعلم HTML وCSS بشكل ذاتي، وسرعان ما وجدت نفسي مفتوناً بالعالم الذي فتحته أمامي هذه اللغات. القدرة على إنشاء شيء من العدم، والرؤية الفورية لنتيجة عملي، والشعور بالإنجاز مع كل خط كود أكتبه - كل هذا جعلني أدرك أنني وجدت شغفي.</p>
+                
+                <p>مع مرور الوقت، تحول هذا الشغف إلى هوس إيجابي. كنت أقضي ساعات طويلة في تعلم JavaScript وأطر العمل المختلفة، مثل React وVue. كل تحدٍ جديد كان يزيد من حماسي، وكل مشكلة كنت أحلها كانت تمنحني دفعة من الثقة والرضا.</p>
+                
+                <p>اليوم، بعد سنوات من بداية هذه الرحلة، أدرك أن تعلمي للبرمجة كان أحد أفضل القرارات التي اتخذتها في حياتي. ليس فقط لأنها منحتني مهنة أحبها، بل لأنها غيرت طريقة تفكيري وحل المشكلات في جميع جوانب حياتي.</p>
+                
+                <blockquote style="font-style: italic; border-right: 3px solid var(--blue); padding-right: 1rem; margin: 2rem 0; color: var(--white-dim);">
+                    "البرمجة بالنسبة لي ليست مجرد كتابة أكواد، بل هي وسيلة للتعبير عن أفكاري وتحويل المفاهيم المجردة إلى واقع ملموس يمكن للآخرين التفاعل معه."
+                </blockquote>
+                
+                <p>هذه الرحلة علمتني أن الشغف والمثابرة يمكنهما تغيير المسار بشكل جذري، وأن أفضل المبرمجين ليسوا بالضرورة أولئك الذين بدأوا مبكراً، بل أولئك الذين لديهم الشغف الحقيقي والرغبة المستمرة في التعلم والتحسين.</p>
+            </div>
+
+            <!-- القسم الثالث: كيف أجعلك متميزاً -->
+            <div id="make-different" class="section">
+                <h2>كيف أجعلك متميزاً</h2>
+                <p>في سوق مليء بالمواقع المتشابهة، أؤمن بأن التميز يأتي من الفهم العميق لاحتياجات العميل والاهتمام بالتفاصيل. أضمن لك أن مشروعك سيكون فريداً ومخصصاً تماماً لاحتياجاتك وهويتك.</p>
+
+                <div class="diagram">
+                    <h3 style="text-align: center; margin-bottom: 2rem;">رحلة المشروع معي</h3>
+                    <div class="steps-diagram">
+                        <div class="step">
+                            <div class="step-icon">1</div>
+                            <div class="step-content">
+                                <h3>استكشاف وفهم</h3>
+                                <p>أبدأ بفهم عميق لرؤيتك وأهدافك واحتياجاتك. أجري بحثاً شاملاً حول مجال عملك والمنافسين لتحديد كيف يمكننا التميز.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-icon">2</div>
+                            <div class="step-content">
+                                <h3>تصميم مخصص 100%</h3>
+                                <p>أصمم واجهة فريدة تعكس هويتك وتلبي احتياجاتك. كل عنصر في التصميم له غرض وكل تفاعل مدروس بعناية.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-icon">3</div>
+                            <div class="step-content">
+                                <h3>تطوير متقدم</h3>
+                                <p>أستخدم أحدث التقنيات لتطوير موقع سريع وآمن وسهل الاستخدام. أركز على تجربة المستخدم وأداء الموقع بشكل خاص.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-icon">4</div>
+                            <div class="step-content">
+                                <h3>اختبار شامل</h3>
+                                <p>أختبر الموقع على جميع الأجهزة والمتصفحات لضمان تجربة مثالية للجميع. أجري اختبارات أداء وأمان متقدمة.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-icon">5</div>
+                            <div class="step-content">
+                                <h3>إطلاق ودعم</h3>
+                                <p>بعد الإطلاق، أقدم الدعم المستمر وأحرص على تحديث الموقع باستمرار مع التطورات التقنية الجديدة.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>ما يميز العمل معي:</h3>
+                <ul style="list-style-type: none; padding: 1rem 0;">
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>الشفافية الكاملة</strong> - ستكون على اطلاع بكل خطوة من خطوات المشروع.
+                    </li>
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>التواصل المستمر</strong> - أنا متاح دائماً للإجابة على أسئلتك وتقديم التحديثات.
+                    </li>
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>الاهتمام بالتفاصيل</strong> - لا أترك أي تفصيل صغير دون اهتمام.
+                    </li>
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>التميز التقني</strong> - أستخدم أحدث التقنيات وأفضل الممارسات.
+                    </li>
+                </ul>
+
+            </div>
+
+            <!-- القسم الرابع: كيف أتعلم البرمجة -->
+            <div id="learning-journey" class="section">
+                <h2>كيف أتعلم البرمجة</h2>
+                <p>رحلة تعلم البرمجة هي رحلة لا تنتهي من التطور والتحسين المستمر. فيما يلي خريطة طريقي للتميز في تطوير الواجهات الأمامية:</p>
+
+                <div class="learning-map">
+                    <div class="branch">
+                        <h3>أساسيات الويب</h3>
+                        <div class="tech-card">HTML5</div>
+                        <div class="tech-card">CSS3</div>
+                        <div class="tech-card">JavaScript (ES6+)</div>
+                    </div>
+                    
+                    <div class="branch">
+                        <h3>تطوير متقدم</h3>
+                        <div class="tech-card">React.js</div>
+                        <div class="tech-card">Vue.js</div>
+                        <div class="tech-card">TypeScript</div>
+                        <div class="tech-card">Next.js</div>
+                    </div>
+                    
+                    <div class="branch">
+                        <h3>تصميم وتجربة المستخدم</h3>
+                        <div class="tech-card">Responsive Design</div>
+                        <div class="tech-card">CSS Frameworks (Tailwind, Bootstrap)</div>
+                        <div class="tech-card">UI/UX Principles</div>
+                        <div class="tech-card">Accessibility (a11y)</div>
+                    </div>
+                    
+                    <div class="branch">
+                        <h3>أدوات وتقنيات</h3>
+                        <div class="tech-card">Git & GitHub</div>
+                        <div class="tech-card">Webpack/Vite</div>
+                        <div class="tech-card">Jest/Testing Library</div>
+                        <div class="tech-card">CI/CD</div>
+                    </div>
+                </div>
+
+                <h3>المنهجية التعليمية:</h3>
+                <p>أتبع منهجية تعليمية منظمة تتضمن:</p>
+                <ul style="list-style-type: none; padding: 1rem 0;">
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>التعلم النظري</strong> - من خلال الكورسات والكتب والمقالات المتخصصة.
+                    </li>
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>التطبيق العملي</strong> - بناء مشاريع حقيقية وتحديات برمجية.
+                    </li>
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>المراجعة المستمرة</strong> - مراجعة الكود مع مبرمجين آخرين وتلقي الملاحظات.
+                    </li>
+                    <li style="margin-bottom: 0.8rem; position: relative; padding-right: 1.5rem;">
+                        <span style="color: var(--blue); position: absolute; right: 0; top: 5px;">•</span>
+                        <strong>المشاركة في المجتمع</strong> - المساهمة في مشاريع مفتوحة المصدر ومساعدة المبتدئين.
+                    </li>
+                </ul>
+
+                <p>هذه الرحلة المستمرة تضمن بقائي على اطلاع بأحدث التقنيات والممارسات في مجال تطوير الواجهات الأمامية، مما يمكنني من تقديم أفضل الحلول لعملائي.</p>
+            </div>
+
+            <!-- القسم الخامس: مميزات خاصة لأول 10 عملاء -->
+            <div id="special-features" class="section">
+                <h2>مميزات خاصة لأول 10 عملاء</h2>
+                <p>لتقدير ثقتكم ودعمكم المبكر، أقدم باقة من المميزات الحصرية لأول 10 عملاء فقط. هذه فرصة محدودة للحصول على قيمة استثنائية لا تتكرر.</p>
+
+                <div style="background: linear-gradient(to left, var(--blue-light), rgba(0,0,0,0)); padding: 2rem; border-radius: 10px; margin: 2rem 0; border-right: 5px solid var(--blue);">
+                    <h3 style="color: var(--blue); margin-bottom: 1.5rem; font-size: 1.5rem;">المميزات الحصرية</h3>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+                        <div style="flex: 1 1 300px; background-color: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border-bottom: 3px solid var(--blue);">
+                            <h4 style="color: var(--blue); margin-bottom: 1rem;">خصم 20% على السعر الأساسي</h4>
+                            <p>استفد من خصم حصري 20% على السعر الأساسي للمشروع، وفر مبلغاً كبيراً مع الحصول على نفس الجودة العالية.</p>
+                        </div>
+                        
+                        <div style="flex: 1 1 300px; background-color: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border-bottom: 3px solid var(--blue);">
+                            <h4 style="color: var(--blue); margin-bottom: 1rem;">صيانة مجانية لمدة 6 أشهر</h4>
+                            <p>احصل على خدمة صيانة وتحديث مجانية لمدة 6 أشهر كاملة بعد إطلاق موقعك، تشمل إصلاح الأخطاء وتحديثات الأمان.</p>
+                        </div>
+                        
+                        <div style="flex: 1 1 300px; background-color: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border-bottom: 3px solid var(--blue);">
+                            <h4 style="color: var(--blue); margin-bottom: 1rem;">تحسين محركات البحث (SEO) مجاناً</h4>
+                            <p>سأقوم بتهيئة موقعك بالكامل لمحركات البحث مجاناً، مما يضمن ظهوره في النتائج الأولى ويزيد من الزيارات.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem;">
+                        <div style="flex: 1 1 300px; background-color: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border-bottom: 3px solid var(--blue);">
+                            <h4 style="color: var(--blue); margin-bottom: 1rem;">تصميم شعار مجاني</h4>
+                            <p>احصل على تصميم شعار احترافي لموقعك أو مشروعك بدون أي تكلفة إضافية، مع تسليم جميع صيغ الملفات اللازمة.</p>
+                        </div>
+                        
+                        <div style="flex: 1 1 300px; background-color: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border-bottom: 3px solid var(--blue);">
+                            <h4 style="color: var(--blue); margin-bottom: 1rem;">أولوية في التنفيذ</h4>
+                            <p>ستحصل على أولوية في جدول الأعمال وسيتم تنفيذ مشروعك بأسرع وقت ممكن، مع التزام بمواعيد تسليم أقصر.</p>
+                        </div>
+                        
+                        <div style="flex: 1 1 300px; background-color: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border-bottom: 3px solid var(--blue);">
+                            <h4 style="color: var(--blue); margin-bottom: 1rem;">استشارات مجانية</h4>
+                            <p>احصل على 3 جلسات استشارية مجانية بعد إطلاق موقعك، لمناقشة استراتيجية التسويق الرقمي وتحسين أداء الموقع.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background-color: rgba(0, 173, 220, 0.1); padding: 1.5rem; border-radius: 8px; text-align: center; margin-top: 2rem;">
+                    <h3 style="color: var(--blue); margin-bottom: 1rem;">لماذا العرض محدود لأول 10 عملاء فقط؟</h3>
+                    <p>يتطلب تقديم هذه المميزات الاستثنائية تخصيص وقت وموارد كبيرة. لضمان تقديم خدمة عالية الجودة وشخصية لكل عميل، قررت حصر هذه المميزات لأول 10 عملاء فقط.</p>
+                    <p style="margin-top: 1rem;">لا تفوت هذه الفرصة المحدودة واحجز مشروعك الآن للاستفادة من هذه المميزات الاستثنائية!</p>
+                    
+                    <div style="margin-top: 2rem; background-color: var(--blue); color: var(--black); padding: 1rem; border-radius: 8px; display: inline-block; font-weight: bold; cursor: pointer;">
+                        احجز مشروعك الآن
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const sections = document.querySelectorAll('.section');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // إزالة الفئة النشطة من جميع الأزرار
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // إضافة الفئة النشطة للزر المحدد
+                    this.classList.add('active');
+                    
+                    // إخفاء جميع الأقسام
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // إظهار القسم المناسب
+                    const targetId = this.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
