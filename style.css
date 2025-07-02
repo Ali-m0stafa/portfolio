@@ -109,7 +109,7 @@ border-radius: 50% 0px 50% 0px;
 }
 
 
-.mainImg img{
+.mainimg img{
     position: relative;
     object-fit: cover;
     width: 90%;
